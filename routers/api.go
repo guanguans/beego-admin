@@ -8,23 +8,14 @@
 package routers
 
 import (
-	"beego-admin/controllers"
+	"beego-admin/controllers/ApiControllers"
 
 	"github.com/astaxie/beego"
 )
 
 func init() {
-	ns := beego.NewNamespace("/v1",
-		beego.NSNamespace("/object",
-			beego.NSInclude(
-				&controllers.ObjectController{},
-			),
-		),
-		beego.NSNamespace("/user",
-			beego.NSInclude(
-				&controllers.UserController{},
-			),
-		),
+	ns := beego.NewNamespace("v1",
+		beego.NSRouter("test", &ApiControllers.TestController{}, "*:Test"),
 	)
 	beego.AddNamespace(ns)
 }
