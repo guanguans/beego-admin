@@ -1,5 +1,7 @@
 package ApiControllers
 
-type TestController struct {
-	BaseController
+import "beego-admin/controllers"
+
+type BaseController struct {
+	controllers.BaseController
 }

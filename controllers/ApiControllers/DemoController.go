@@ -1,9 +1,7 @@
 package ApiControllers
 
-import "beego-admin/controllers"
-
-type BaseController struct {
-	controllers.BaseController
+type DemoController struct {
+	BaseController
 }
 
 type BeegoAdmin struct {
@@ -12,8 +10,8 @@ type BeegoAdmin struct {
 	Author string
 }
 
-func (c *BaseController) Test()  {
+func (this *BaseController) Demo()  {
 	BeegoAdmin := BeegoAdmin{"beego-admin", "https://github.com/guanguans/beego-admin","guanguans"}
-	c.Data["json"] = BeegoAdmin
-	c.ServeJSON()
+	this.Data["json"] = BeegoAdmin
+	this.ServeJSON()
 }

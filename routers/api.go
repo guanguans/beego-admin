@@ -15,7 +15,7 @@ import (
 
 func init() {
 	ns := beego.NewNamespace("v1",
-		beego.NSRouter("test", &ApiControllers.TestController{}, "*:Test"),
+		beego.NSRouter("demo", &ApiControllers.DemoController{}, "*:Demo"),
 	)
 	beego.AddNamespace(ns)
 }
