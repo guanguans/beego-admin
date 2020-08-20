@@ -7,8 +7,8 @@ import (
 
 func init() {
 	ns := beego.NewNamespace("admin",
-		beego.NSRouter("adminUsers", &AdminControllers.AdminUsersController{}, "*:GetAll"),
-		beego.NSRouter("adminUsers/:id", &AdminControllers.AdminUsersController{}, "*:GetOne"),
+		beego.NSRouter("adminUsers", &AdminControllers.AdminUserController{}, "*:GetAll"),
+		beego.NSRouter("adminUser/:id", &AdminControllers.AdminUserController{}, "*:GetOne"),
 	)
 	beego.AddNamespace(ns)
 }
