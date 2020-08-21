@@ -10,6 +10,10 @@ type AuthController struct {
 	BaseController
 }
 
+func (c *AuthController) Login() {
+	c.AjaxSuccess("ok")
+}
+
 func (c *AuthController) GetToken() {
 	username := c.Ctx.Input.Query("username")
 	tokenString := ""
