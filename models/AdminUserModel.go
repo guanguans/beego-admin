@@ -17,14 +17,17 @@ type AdminUser struct {
 	UpdatedAt     time.Time `orm:"auto_now;type(datetime);column(updated_at)"`
 }
 
+func (this *AdminUser) GetByUsername(userName string) (adminUser AdminUser) {
+	orm.NewOrm().QueryTable(this).Filter("username", userName).One(&adminUser)
+	return
+}
+
 func (this *AdminUser) GetAll() (adminUsers []AdminUser) {
 	orm.NewOrm().QueryTable(this).All(&adminUsers)
-
 	return
 }
 
 func (this *AdminUser) GetOne(id int) (adminUser AdminUser) {
 	orm.NewOrm().QueryTable(this).Filter("id", id).One(&adminUser)
-
 	return
 }
