@@ -14,11 +14,11 @@ func (c *AuthController) GetToken() {
 	username := c.Ctx.Input.Query("username")
 	tokenString := ""
 	if username != "" {
-		et := helpers.EasyToken{
+		easyToken := helpers.EasyToken{
 			Username: username,
-			Expires:  time.Now().Unix() + 3600, //Segundos
+			Expires:  time.Now().Unix() + 3600,
 		}
-		tokenString, _ = et.GenerateToken()
+		tokenString, _ = easyToken.GenerateToken()
 	}
 
 	c.Data["json"] = tokenString
@@ -27,15 +27,14 @@ func (c *AuthController) GetToken() {
 
 func (c *AuthController) VerifyToken() {
 	tokenString := c.Ctx.Input.Query("token")
-	// O puede ser leído de una cabecera HEADER!!
 	// tokenString := c.Ctx.Request.Header.Get("X-JWTtoken")
-	et := helpers.EasyToken{}
-	valido, _, _ := et.ValidateToken(tokenString)
-	if !valido {
-		c.Ctx.Output.SetStatus(401)
-		c.Data["json"] = "token验证失败"
+	easyToken := helpers.EasyToken{}
+	iss, err := easyToken.ParseToken(tokenString)
+	if err != nil {
+		c.Data["json"] = err.Error()
 		c.ServeJSON()
 	}
-	c.Data["json"] = "token验证成功"
+
+	c.Data["json"] = iss
 	c.ServeJSON()
 }
