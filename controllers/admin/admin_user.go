@@ -10,15 +10,11 @@ type AdminUserController struct {
 
 var adminUserModel models.AdminUser
 
-func (this *AdminUserController) GetAll() {
-	adminUsers := adminUserModel.GetAll()
-	this.Data["json"] = adminUsers
-	this.ServeJSON()
+func (c *AdminUserController) GetAll() {
+	c.AjaxSuccess(adminUserModel.GetAll())
 }
 
-func (this *AdminUserController) GetOne() {
-	id, _ := this.GetInt(":id")
-	adminUser := adminUserModel.GetOne(id)
-	this.Data["json"] = adminUser
-	this.ServeJSON()
+func (c *AdminUserController) GetOne() {
+	id, _ := c.GetInt(":id")
+	c.AjaxSuccess(adminUserModel.GetOne(id))
 }
