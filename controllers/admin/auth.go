@@ -1,21 +1,20 @@
-package AdminControllers
+package admin
 
 import (
-	"beego-admin/controllers"
-	"beego-admin/helpers"
+	"beego-admin/utils/jwt"
 )
 
-type BaseController struct {
-	controllers.BaseController
+type AuthController struct {
+	BaseController
 }
 
-func (c *BaseController) Prepare() {
+func (c *AuthController) Prepare() {
 	token := c.Ctx.Input.Query("token")
 	if token == "" {
 		c.AjaxError("您还没有登录")
 	}
 	// token := c.Ctx.Request.Header.Get("x-token")
-	easyToken := helpers.EasyToken{}
+	easyToken := jwt.EasyToken{}
 	_, err := easyToken.ParseToken(token)
 	if err != nil {
 		c.AjaxError(err.Error())

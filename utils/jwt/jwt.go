@@ -1,4 +1,4 @@
-package helpers
+package jwt
 
 import (
 	"crypto/rsa"
@@ -64,30 +64,30 @@ func (e EasyToken) GenerateToken() (string, error) {
 
 func (e EasyToken) ParseToken(tokenString string) (string, error) {
 	if tokenString == "" {
-		return "", errors.New("Token cannot be empty!")
+		return "", errors.New("Token string cannot be empty")
 	}
 
 	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
 		return verifyKey, nil
 	})
 	if token == nil {
-		return "", errors.New("not work")
+		return "", errors.New("Not work")
 	}
 	if !token.Valid {
 		return "", err
 	}
 
-	if ve, ok := err.(*jwt.ValidationError); ok {
-		if ve.Errors&jwt.ValidationErrorMalformed != 0 {
-			return "", errors.New("That's not even a token")
-		} else if ve.Errors&(jwt.ValidationErrorExpired|jwt.ValidationErrorNotValidYet) != 0 {
-			return "", errors.New("Timing is everything")
-		} else {
-			return "", err
-		}
+	validationError, notOk := err.(*jwt.ValidationError)
+	if !notOk {
+		claims, _ := token.Claims.(jwt.MapClaims)
+		return claims["iss"].(string), nil
+	}
+	if validationError.Errors&jwt.ValidationErrorMalformed != 0 {
+		return "", errors.New("That's not even a token")
+	}
+	if validationError.Errors&(jwt.ValidationErrorExpired|jwt.ValidationErrorNotValidYet) != 0 {
+		return "", errors.New("Timing is everything")
 	}
 
-	claims, _ := token.Claims.(jwt.MapClaims)
-
-	return claims["iss"].(string), nil
+	return "", err
 }

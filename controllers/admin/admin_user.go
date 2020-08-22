@@ -1,11 +1,11 @@
-package AdminControllers
+package admin
 
 import (
 	"beego-admin/models"
 )
 
 type AdminUserController struct {
-	BaseController
+	AuthController
 }
 
 var adminUserModel models.AdminUser
