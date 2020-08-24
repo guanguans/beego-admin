@@ -14,10 +14,22 @@ import (
 )
 
 func init() {
-	sqlconn := beego.AppConfig.String("sqlconn")
+	orm.RegisterModelWithPrefix(beego.AppConfig.DefaultString("db::prefix", ""))
+	dbUser := beego.AppConfig.String("db::user")
+	dbPassword := beego.AppConfig.String("db::password")
+	dbDatabase := beego.AppConfig.String("db::database")
+	dbCharset := beego.AppConfig.String("db::charset")
+	dbHost := beego.AppConfig.String("db::host")
+	dbPort := beego.AppConfig.String("db::port")
+	dbLoc := beego.AppConfig.String("db::loc")
+	sqlConn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=%s&loc=%v", dbUser, dbPassword, dbHost, dbPort, dbDatabase, dbCharset, dbLoc)
+	maxIdle := beego.AppConfig.DefaultInt("db::maxIdle", 50)
+	maxConn := beego.AppConfig.DefaultInt("db::maxConn", 300)
+	if err := orm.RegisterDataBase("default", "mysql", sqlConn, maxIdle, maxConn); err != nil {
+		panic(err)
+	}
 
-	orm.RegisterDataBase("default", "mysql", sqlconn)
-
+	orm.RegisterDataBase("default", "mysql", sqlConn)
 	orm.RegisterModel(
 		new(AdminMenu),
 		new(AdminOperationLog),
