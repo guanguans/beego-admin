@@ -9,7 +9,13 @@ import (
 
 type AuthController struct {
 	BaseController
-	AdminUser models.AdminUser
+	AdminUser interface{}
+}
+
+type AdminUser struct {
+	models.AdminUser
+	Roles []string
+	Menus []string
 }
 
 func (c *AuthController) Prepare() {
@@ -26,7 +32,7 @@ func (c *AuthController) Prepare() {
 	if adminUser.Id == 0 {
 		c.ErrorJson(fmt.Sprintf("该用户不存在: %s", userName))
 	}
-	c.AdminUser = adminUser
+	c.AdminUser = AdminUser{adminUser, []string{"super_admin"}, []string{"admin"}}
 }
 
 func (c *AuthController) GetAdminUser() {

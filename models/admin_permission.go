@@ -1,15 +1,7 @@
 package models
 
-import (
-	"time"
-)
-
 type AdminPermission struct {
-	Id         int       `orm:"column(id)"`
-	Name       string    `orm:"size(50);column(name)"`
-	Slug       string    `orm:"size(50);column(slug)"`
-	HttpMethod string    `orm:"size(255);column(http_method)"`
-	HttpPath   string    `orm:"size(255);column(http_path)"`
-	CreatedAt  time.Time `orm:"auto_now_add;type(timestamp);column(created_at)"`
-	UpdatedAt  time.Time `orm:"auto_now;type(timestamp);column(updated_at)"`
+	Id     int `orm:"column(id)" json:"id"`
+	MenuId int `orm:"column(menu_id)" json:"menu_id"`
+	RoleId int `orm:"column(role_id)" json:"role_id"`
 }
