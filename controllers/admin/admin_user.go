@@ -11,10 +11,10 @@ type AdminUserController struct {
 var adminUserModel models.AdminUser
 
 func (c *AdminUserController) GetAll() {
-	c.AjaxSuccess(adminUserModel.GetAll())
+	c.SuccessJson(adminUserModel.GetAll())
 }
 
 func (c *AdminUserController) GetOne() {
 	id, _ := c.GetInt(":id")
-	c.AjaxSuccess(adminUserModel.GetOne(id))
+	c.SuccessJson(adminUserModel.GetOne(id))
 }

@@ -8,23 +8,24 @@ type BaseController struct {
 	beego.Controller
 }
 
-type JsonData struct {
-	Code int
-	Data interface{}
-	Msg  string
+type ErrorJsonData struct {
+	Code    int    `json:"code"`
+	Message string `json:"message"`
+	Status  string `json:"status"`
 }
 
-func (c *BaseController) AjaxSuccess(data interface{}) {
-	jsonData := JsonData{1, data, "ok"}
-	c.AjaxReturn(jsonData)
+type SuccessJsonData struct {
+	Code   int         `json:"code"`
+	Data   interface{} `json:"data"`
+	Status string      `json:"status"`
 }
 
-func (c *BaseController) AjaxError(msg string) {
-	jsonData := JsonData{-1, nil, msg}
-	c.AjaxReturn(jsonData)
+func (c *BaseController) SuccessJson(data interface{}) {
+	c.Data["json"] = SuccessJsonData{200, data, "success"}
+	c.ServeJSON()
 }
 
-func (c *BaseController) AjaxReturn(jsonData JsonData) {
-	c.Data["json"] = jsonData
+func (c *BaseController) ErrorJson(message string) {
+	c.Data["json"] = ErrorJsonData{422, message, "error"}
 	c.ServeJSON()
 }

@@ -10,8 +10,8 @@ type BeegoAdmin struct {
 	Author      string
 }
 
-func (this *BaseController) Demo() {
+func (c *BaseController) Demo() {
 	BeegoAdmin := BeegoAdmin{"beego-admin", "https://github.com/guanguans/beego-admin", "guanguans"}
-	this.Data["json"] = BeegoAdmin
-	this.ServeJSON()
+	c.Data["json"] = BeegoAdmin
+	c.ServeJSON()
 }
